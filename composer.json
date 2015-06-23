@@ -1,4 +1,8 @@
 {
+    "name": "dvomedia/rest-skeleton",
+    "description": "A pre-configured skeleton for rest Silex & PDO",
+    "license": "GNU",
+    "type": "project",
     "minimum-stability": "dev",
     "require": {
         "silex/silex": "~1.3",
