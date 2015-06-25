@@ -35,6 +35,11 @@ $app['user.controller'] = $app->share(function () use ($app) {
     return new DVO\Controller\UserController($app['user.factory']);
 });
 
+// setup the user controller
+$app['rpc.controller'] = $app->share(function () use ($app) {
+    return new DVO\Controller\RpcController();
+});
+
 $app->get('/', function () {
     return 'API is stable (' . gethostname() . ')';
 });

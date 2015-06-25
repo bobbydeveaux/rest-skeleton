@@ -8,6 +8,7 @@ $app->put(   '/user/{id}', "user.controller:updateJsonAction");
 $app->post(  '/user',      "user.controller:createJsonAction");
 $app->delete('/user/{id}', "user.controller:deleteJsonAction");
 
+$app->get(  '/rpcserver',      "rpc.controller:serverJsonAction");
 
 
 return $app;

@@ -12,9 +12,9 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     {
         $obj = new \DVO\Entity\User;
         $obj->setId('123');
-        $obj->setName('foo');
+        $obj->setUsername('foo');
 
-        $this->assertEquals('foo', $obj->getName());
+        $this->assertEquals('foo', $obj->getUsername());
     }
 
     /**
@@ -35,7 +35,8 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(array(
             'id'   => '123',
-            'name' => ''
+            'username' => '',
+            'password' => ''
         ), $data);
     }
 

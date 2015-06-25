@@ -38,8 +38,7 @@ class PdoServiceProvider implements ServiceProviderInterface
                 /*
                 if ($app['debug'] && isset($app['monolog'])) {
                     $pdo = new PdoLog($dsn, $username, $password, $options);
-
-                    $pdo->onLog(
+                                $pdo->onLog(
                         function (array $entry) use ($app) {
                             $app['monolog']->addDebug(
                                 sprintf(
@@ -50,8 +49,7 @@ class PdoServiceProvider implements ServiceProviderInterface
                             );
                         }
                     );
-
-                    return $pdo;
+                                return $pdo;
                 }*/
                 return new Db($dsn, $username, $password, $options);
             }
