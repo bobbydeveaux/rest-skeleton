@@ -36,7 +36,9 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'id'   => '123',
             'username' => '',
-            'password' => ''
+            'password' => '',
+            'email'    => '',
+            'deleted'  => ''
         ), $data);
     }
 

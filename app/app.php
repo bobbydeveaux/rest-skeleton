@@ -8,9 +8,21 @@ use Symfony\Component\HttpFoundation\Response;
 use DVO\Provider\PdoServiceProvider;
 use Igorw\Silex\ConfigServiceProvider;
 
+use PhpAmqpLib\Connection\AMQPConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
 $app = new Application();
 $app['cache'] = $app->share(function () {
     return new DVO\Cache;
+});
+
+$app['amqp.connection'] = $app->share(function() use ($app) {
+    return new AMQPConnection(
+        $app['config']['amqp.host'],
+        $app['config']['amqp.port'],
+        $app['config']['amqp.user'],
+        $app['config']['amqp.pass']
+    );
 });
 
 $app['validator'] = $app->share(function () {
@@ -37,7 +49,7 @@ $app['user.controller'] = $app->share(function () use ($app) {
 
 // setup the user controller
 $app['rpc.controller'] = $app->share(function () use ($app) {
-    return new DVO\Controller\RpcController();
+    return new DVO\Controller\RpcController($app['amqp.connection']);
 });
 
 $app->get('/', function () {

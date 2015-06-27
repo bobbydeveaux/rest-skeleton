@@ -18,9 +18,9 @@ class User extends EntityAbstract
         $this->data = array(
             'id'   => '',
             'username' => '',
-            'password' => ''
-
-
+            'password' => '',
+            'deleted'  => '',
+            'email'    => '',
         );
 
         parent::__construct($values);
@@ -41,7 +41,7 @@ class User extends EntityAbstract
      *
      * @return string
      */
-    public function getName()
+    public function getUsername()
     {
         return $this->data['username'];
     }

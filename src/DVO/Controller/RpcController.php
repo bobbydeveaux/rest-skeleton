@@ -13,6 +13,12 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class RpcController extends AbstractController
 {
+    protected $connection;
+
+    public function __construct(AMQPConnection $connection)
+    {
+        $this->connection = $connection;
+    }
 
     /**
      * Create a new user with a POST request
@@ -23,9 +29,7 @@ class RpcController extends AbstractController
      */
     public function serverJsonAction(Request $request, Application $app)
     {
-        $connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
-        $channel    = $connection->channel();
-
+        $channel = $this->connection->channel();
         $channel->queue_declare('rpc_queue', false, false, false, false);
 
         echo " [x] Awaiting RPC requests\n";
@@ -33,14 +37,23 @@ class RpcController extends AbstractController
             $message = json_decode($req->body, true);
             echo " [.] " . print_r($message, true) . "\n";
 
-            $request = Request::create($message['path'], $message['method']);
-            $response = $app->handle($request);
-            var_dump($response);
+            // RPC is just a wrapper around the REST paradigm,
+            // but simply bypassing HTTP.
+            $request = Request::create(
+                $message['path'],
+                $message['method'],
+                $message['parameters'],
+                [],
+                [],
+                [],
+                $message['content']
+            );
 
+            $response = $app->handle($request);
 
             $msg = new AMQPMessage(
                 $response->getContent(),
-                array('correlation_id' => $req->get('correlation_id'))
+                ['correlation_id' => $req->get('correlation_id')]
             );
 
             $req->delivery_info['channel']->basic_publish(

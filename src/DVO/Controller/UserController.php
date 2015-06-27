@@ -58,7 +58,7 @@ class UserController extends AbstractController
             $s                           = [];
             $s['_links']['self']['href'] = $request->getPathInfo();
             $s['id']                     = $user->getId();
-            $s['name']                   = $user->getName();
+            $s['username']               = $user->getUsername();
             $s['full']                   = $user->getData();
             if (true === empty($userId)) {
                 $s['_links']['self']['href'] .= '/' . $user->getId();
@@ -94,6 +94,7 @@ class UserController extends AbstractController
     public function createJsonAction(Request $request, Application $app)
     {
         $data = json_decode($request->getContent(), true);
+
         $user = $this->userFactory->create($data);
 
         try {
@@ -120,6 +121,45 @@ class UserController extends AbstractController
     public function updateJsonAction(Request $request, Application $app)
     {
         $data   = json_decode($request->getContent(), true);
+        $userId = (int) $request->attributes->get('id');
+
+        if (isset($userId) === false) {
+            return $this->errorJsonResponse(['error' => 'User ID must be provided and an integer.']);
+        } else {
+            $search['id'] = $userId;
+        }
+
+        $users = $this->userFactory->getUsers($search);
+
+        if (count($users) !== 1) {
+            return $this->errorJsonResponse(['error' => 'Unexpected number of responses']);
+        }
+
+        $user = reset($users);
+
+        try {
+            if (true === $this->userFactory->getGateway()->updateUser($user, $data)) {
+                $request->attributes->set('id', $userId);
+
+                return $this->indexJsonAction($request, $app);
+            } else {
+                return $this->errorJsonResponse(['error' => 'User was not successfully updated']);
+            }
+        } catch (\DVO\Entity\EntityAbstract\EntityAbstractGateway\Exception $e) {
+            return $this->errorJsonResponse(['exception' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Deleted an existing user with a PUT request
+     *
+     * @param  Request      $request
+     * @param  Application  $app
+     * @return JsonResponse
+     */
+    public function deleteJsonAction(Request $request, Application $app)
+    {
+        $data   = ['deleted' => 1];
         $userId = (int) $request->attributes->get('id');
 
         if (isset($userId) === false) {
