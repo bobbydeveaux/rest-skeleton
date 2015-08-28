@@ -74,7 +74,7 @@ class RpcController extends AbstractController
         }
 
         $channel->close();
-        $connection->close();
+        $this->connection->close();
     }
 
 

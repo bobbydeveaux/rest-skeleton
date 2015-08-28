@@ -67,6 +67,7 @@ class UserController extends AbstractController
         }, $users);
         /* @codingStandardsIgnoreEnd */
 
+        $response = [];
         $response['_links']['self']['href'] = $request->getPathInfo();
         $response['_embedded']['users']     = $users;
         $response['count']                  = count($users);
@@ -123,6 +124,7 @@ class UserController extends AbstractController
         $data   = json_decode($request->getContent(), true);
         $userId = (int) $request->attributes->get('id');
 
+        $search = [];
         if (isset($userId) === false) {
             return $this->errorJsonResponse(['error' => 'User ID must be provided and an integer.']);
         } else {
@@ -162,6 +164,7 @@ class UserController extends AbstractController
         $data   = ['deleted' => 1];
         $userId = (int) $request->attributes->get('id');
 
+        $search = [];
         if (isset($userId) === false) {
             return $this->errorJsonResponse(['error' => 'User ID must be provided and an integer.']);
         } else {
