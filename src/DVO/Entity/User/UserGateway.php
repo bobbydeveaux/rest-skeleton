@@ -83,7 +83,7 @@ class UserGateway extends EntityAbstractGateway
 
         if ($stmt->execute()) {
             $id = $this->db->lastInsertId();
-            return true;
+            return $id;
         } else {
             throw new \DVO\Entity\User\UserGateway\Exception("User could not be updated: ".$stmt->errorInfo()[2]);
         }

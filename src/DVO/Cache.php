@@ -10,4 +10,5 @@ namespace DVO;
  **/
 class Cache extends \Memcached
 {
+    public $enabled;
 }
