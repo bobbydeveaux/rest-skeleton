@@ -1,5 +1,8 @@
 language: php
 
+before_script:
+- sudo apt-get install php5-memcached
+
 script:
 - composer install
 - vendor/bin/phpunit -c app/phpunit.xml
