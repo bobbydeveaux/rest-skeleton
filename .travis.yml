@@ -8,7 +8,6 @@ services:
   - memcached
 before_script:
   - composer self-update
-  - sudo apt-get install php5-memcached
   - chmod -R 755 tests/bin/memcached.sh
   - tests/bin/memcached.sh
 script:
