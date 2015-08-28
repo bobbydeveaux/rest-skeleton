@@ -1,3 +1,5 @@
+![Build Status](https://travis-ci.org/dvomedia/rest-skeleton.svg)
+
 rest-skeleton
 ===========
 
