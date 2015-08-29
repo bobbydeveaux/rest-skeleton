@@ -11,14 +11,7 @@ class Validator
 
     public function isValidName($string)
     {
-        if (true === empty($string)) {
-            return true;
-        }
-        if (0 === preg_match('/^[a-zA-Z]+$/', $string)) {
-            return false;
-        }
-
-        if (is_numeric($string)) {
+        if ($this->isValidString($string)) {
             return false;
         }
 
