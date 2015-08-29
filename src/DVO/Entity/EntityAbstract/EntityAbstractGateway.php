@@ -44,15 +44,10 @@ abstract class EntityAbstractGateway
             $query .= " WHERE $params;";
         }
 
-        $stmt = $this->db->prepare($query);
-
-        foreach ($data as $key => $value) {
-            if ($key === '_id' || $value === "") {
-                continue;
-            }
-
-            $stmt->bindValue(':' . $key, $value);
-        }
+        $stmt = $this->bindStatement(
+            $this->db->prepare($query),
+            $data
+        );
 
 
         return $stmt;
@@ -84,15 +79,10 @@ abstract class EntityAbstractGateway
 
         $query = "INSERT INTO `".$this->table."` ($fields) VALUES ($params);";
 
-        $stmt = $this->db->prepare($query);
-
-        foreach ($data as $key => $value) {
-            if ($key === '_id' || $key === 'id' || $value === "") {
-                continue;
-            }
-
-            $stmt->bindValue(':' . $key, $value);
-        }
+        $stmt = $this->bindStatement(
+            $this->db->prepare($query),
+            $data
+        );
 
         return $stmt;
     }
@@ -131,15 +121,10 @@ abstract class EntityAbstractGateway
         }
 
 
-        $stmt = $this->db->prepare($query);
-
-        foreach ($data as $key => $value) {
-            if ($key === '_id' || $value === "") {
-                continue;
-            }
-
-            $stmt->bindValue(':' . $key, $value);
-        }
+        $stmt = $this->bindStatement(
+            $this->db->prepare($query),
+            $data
+        );
 
         return $stmt;
     }
@@ -155,5 +140,24 @@ abstract class EntityAbstractGateway
         $stmt  = $this->db->prepare($query);
 
         return $stmt;
+    }
+
+    /**
+     * Statement to bind values
+     *
+     * @return Statement
+     **/
+    protected function bindStatement($statement, $data)
+    {
+        foreach ($data as $key => $value) {
+            if ($key === '_id' || $value === "") {
+                continue;
+            }
+
+            $statement->bindValue(':' . $key, $value);
+        }
+
+        return $statement;
+
     }
 }
