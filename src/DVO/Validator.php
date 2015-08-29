@@ -14,7 +14,7 @@ class Validator
         if (true === empty($string)) {
             return true;
         }
-        if (preg_match('/^[a-zA-Z]+$/', $string)  == false) {
+        if (0 === preg_match('/^[a-zA-Z]+$/', $string)) {
             return false;
         }
 
@@ -34,7 +34,7 @@ class Validator
         if (true === empty($string)) {
             return true;
         }
-        if (preg_match('/^[a-zA-Z]+$/', $string) == false) {
+        if (0 === preg_match('/^[a-zA-Z]+$/', $string)) {
             return false;
         }
         if (is_numeric($string) === true) {
