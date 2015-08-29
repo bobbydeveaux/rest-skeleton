@@ -35,22 +35,6 @@ class PdoServiceProvider implements ServiceProviderInterface
                 $password = null,
                 array $options = array()
             ) use ($app) {
-                /*
-                if ($app['debug'] && isset($app['monolog'])) {
-                    $pdo = new PdoLog($dsn, $username, $password, $options);
-                                $pdo->onLog(
-                        function (array $entry) use ($app) {
-                            $app['monolog']->addDebug(
-                                sprintf(
-                                    'PDO query: %s, values :%s',
-                                    $entry['query'],
-                                    var_export($entry['values'], true)
-                                )
-                            );
-                        }
-                    );
-                                return $pdo;
-                }*/
                 return new Db($dsn, $username, $password, $options);
             }
         );
