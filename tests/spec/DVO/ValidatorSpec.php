@@ -84,7 +84,7 @@ class ValidatorSpec extends ObjectBehavior
 
         $this->isValidPhone('+441159556032')
              ->shouldReturn(true);
-        $this->isValidPhone(01159556032)
+        $this->isValidPhone('01159556032')
              ->shouldReturn(false);
         $this->isValidPhone('+')
              ->shouldReturn(false);
